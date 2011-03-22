@@ -10,9 +10,10 @@ class ImageConversionsController < ApplicationController
   def convert_image
     path = CGI::unescape(params[:path])
     file = params[:file_name]
+    output_path = "/images/test/"
     puts "#{path}#{file}"
     converted_url = convert_image_from_path("#{path}#{file}", "#{RAILS_ROOT}/public/images/test/")
-    @converted_file = {:src => File.basename(file), :converted => converted_url}
-    render :text => @converted_file.to_json
+    @converted_file = {:src => File.basename(file), :converted => converted_url, :output_path => output_path}
+    render :json => @converted_file.to_json
   end
 end

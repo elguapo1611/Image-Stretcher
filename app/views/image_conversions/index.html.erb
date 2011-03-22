@@ -13,9 +13,17 @@
 		var path = "<%= CGI::escape(@path) %>";
 		$("#file_list li").click(function(){
 			var file_name = $("img", this).attr("data_url");
+			var current_li = this;
 			$.get(convert_url+"?file_name="+file_name+"&path="+path, function(data) {
-				console.log("convert complete");
-				console.log(data);
+				// console.log("convert complete");
+				var obj = $.parseJSON(data);
+				if(obj == undefined) {
+					obj = data;
+				}
+				// console.log(current_li);
+				
+				$(current_li).append('<img src="'+obj.output_path+obj.converted+'" />');
+				
 			});
 		});
 	});
