@@ -1,6 +1,22 @@
-<% @converted_files.each do |file| %>
-<div>
-	<%= image_tag file[:src] %>
-	<%= image_tag file[:converted] %>
-</div>
+<p><%= @src_url %></p>
+<ul id="file_list">
+<% @images.each do |file| %>
+	<li>
+		<%= image_tag "#{@src_url}#{file}", :data_url => file %>
+	</li>
 <% end %>
+</ul>
+
+<script>
+	$(function(){
+		var convert_url = "<%= convert_image_path %>";
+		var path = "<%= CGI::escape(@path) %>";
+		$("#file_list li").click(function(){
+			var file_name = $("img", this).attr("data_url");
+			$.get(convert_url+"?file_name="+file_name+"&path="+path, function(data) {
+				console.log("convert complete");
+				console.log(data);
+			});
+		});
+	});
+</script>
